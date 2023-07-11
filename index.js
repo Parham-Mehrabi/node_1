@@ -1,13 +1,24 @@
 const express = require('express');
+const logger = require('./middlewares/logger')
+const authenticate = require('./middlewares/authenticate')
 const Joi = require('joi');
 const app = express();
+
+
+// builtin middlewares
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static('public'))
+
+// costume middlewares
+app.use(logger)
+app.use(authenticate)
 
 
 let students = [
     { 'id': 1, 'name': 'first student' },
     { 'id': 2, 'name': 'second student' },
-    { 'id': 3, 'name': 'third student' },
+    { 'id': 3, 'name': 'third student' }, 
     { 'id': 4, 'name': 'fourth student' },
     { 'id': 5, 'name': 'fifth student' }
 ]
