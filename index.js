@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('./middlewares/logger')
 const helmet = require('helmet')
+const morgan = require('morgan')
 const authenticate = require('./middlewares/authenticate')
 const Joi = require('joi');
 const app = express();
@@ -17,6 +18,9 @@ app.use(authenticate)
 
 // third-party middlewares
 app.use(helmet())
+app.use(morgan('tiny'))
+
+
 
 let students = [
     { 'id': 1, 'name': 'first student' },
