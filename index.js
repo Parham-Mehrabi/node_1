@@ -13,14 +13,15 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
 // costume middlewares
-app.use(logger)
+// app.use(logger)
 app.use(authenticate)
 
 // third-party middlewares
 app.use(helmet())
-app.use(morgan('tiny'))
+if (app.get('env') === 'development') app.use(morgan('tiny'))
 
 
+console.log(app.get('env'))
 
 let students = [
     { 'id': 1, 'name': 'first student' },
