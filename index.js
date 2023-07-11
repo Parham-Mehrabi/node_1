@@ -31,6 +31,7 @@ app.get('/api/students/', (req, res) => {
 app.get('/api/students/:id', (req, res) => {
     const id = parseInt(req.params.id)
     const student = students.find(s => s.id === id);
+    if (!student) return res.status(404).send('student with the given ID not found')
     res.send(student)
 });
 
@@ -38,7 +39,6 @@ app.get('/api/students/:id', (req, res) => {
 app.post('/api/students/', (req, res) => {
     const { error } = validateStudent(req.body)
     if (error) return res.status(400).send(error.details[0].message)
-    console.log(error)
     const new_student = {
         'id': students.length + 1,
         'name': req.body.name
@@ -53,6 +53,7 @@ app.put('/api/students/:id', (req, res) => {
     if (error) return res.status(400).send(error.details[0].message)
     const id = parseInt(req.params.id)
     const student = students.find(s => s.id === id)
+    if (!student) return res.status(404).send('student with the given ID not found')
     student.name = req.body.name
     res.send(student)
 })
