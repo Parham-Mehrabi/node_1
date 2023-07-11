@@ -1,5 +1,6 @@
 const express = require('express');
 const logger = require('./middlewares/logger')
+const helmet = require('helmet')
 const authenticate = require('./middlewares/authenticate')
 const Joi = require('joi');
 const app = express();
@@ -14,6 +15,8 @@ app.use(express.static('public'))
 app.use(logger)
 app.use(authenticate)
 
+// third-party middlewares
+app.use(helmet())
 
 let students = [
     { 'id': 1, 'name': 'first student' },
