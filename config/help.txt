@@ -1,0 +1,25 @@
+### 
+### npm i config
+### const config = require('config')
+### 
+
+
+first of all the name of this directory should always be config (not configs or configurations)
+
+second, config modules have some priorities as follows:
+
+1.the first place its look for the key is the 'custom-environment-variables.json' (only if the variable key has a value in env)
+
+2. then its check the value of NODE_ENV and if its have some value it goes for the_value_of_nodeenv.json file where
+    the name of the file is equal to the value of NODE_ENV
+
+3.if it didnt find the key by now it will check default.json file and its the final place which means if it dont find a key here,
+    it will give you an error
+
+----------------------------------------------------------------------------
+
+# in all files values are equal to the actual values in .json file except for custom-environment-variables.json,
+    in this one it equals to the value of the ENV variable with the given name
+
+# if there is no key with that name in ENV or the value of the key be empty (e.g PATH='') then it doesnt count,
+    which means it will check other steps

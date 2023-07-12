@@ -1,5 +1,6 @@
 const express = require('express');
-const logger = require('./middlewares/logger')
+const config = require('config')
+// const logger = require('./middlewares/logger')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const authenticate = require('./middlewares/authenticate')
@@ -7,21 +8,23 @@ const Joi = require('joi');
 const app = express();
 
 
+
+// app.get('env') returns the value of NODE_ENV and return development if the value is not set
+
+
+
 // builtin middlewares
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
-
 // costume middlewares
-// app.use(logger)
 app.use(authenticate)
+// app.use(logger)
 
 // third-party middlewares
 app.use(helmet())
 if (app.get('env') === 'development') app.use(morgan('tiny'))
 
-
-console.log(app.get('env'))
 
 let students = [
     { 'id': 1, 'name': 'first student' },
@@ -30,6 +33,10 @@ let students = [
     { 'id': 4, 'name': 'fourth student' },
     { 'id': 5, 'name': 'fifth student' }
 ]
+
+
+// using config for no reason
+console.log(config.get('mail'))
 
 
 function validateStudent(data) {
