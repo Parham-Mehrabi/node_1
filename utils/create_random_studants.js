@@ -1,16 +1,7 @@
 const mongoose = require('mongoose')
 const faker = require('faker')
+const Student = require('../models/student_model')
 
-
-
-const studentSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true,
-    }
-})
-const Student = mongoose.model('students', studentSchema)
 
 async function createStudents() {
     try{

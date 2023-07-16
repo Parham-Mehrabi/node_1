@@ -1,16 +1,8 @@
 const express = require('express');
 const Joi = require('joi');
 const students_route = express.Router()
-
-
-
-let students = [
-    { 'id': 1, 'name': 'first student' },
-    { 'id': 2, 'name': 'second student' },
-    { 'id': 3, 'name': 'third student' }, 
-    { 'id': 4, 'name': 'fourth student' },
-    { 'id': 5, 'name': 'fifth student' }
-]
+const Mongoose = require('mongoose')
+const Student = require('../models/student_model')
 
 function validateStudent(data) {
     const schema = Joi.object().keys(
@@ -22,10 +14,26 @@ function validateStudent(data) {
     return resault
 }
 
+async function getStudents(){
+    try{
+
+        await Mongoose.connect('mongodb://127.0.0.1/node_app')
+        const students = await Student.find()
+        return students
+    }
+    catch (error){
+        console.error(error)
+    }
+    finally{
+        await Mongoose.disconnect();
+    }
+    
+}
 
 
-students_route.get('/', (req, res) => {
-    res.send(students);
+students_route.get('/', async (req, res) => {
+    const students = await getStudents()
+    res.send(students.map(s => s.name));
 });
 
 
