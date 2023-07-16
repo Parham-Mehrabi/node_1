@@ -10,8 +10,7 @@ const students_route = require('./routes/students')
 
 
 app.set('view engine', 'pug');
-app.set('views', './views');      // default
-
+app.set('views', './views');      // default value is the same but we can modify it from here
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
@@ -31,4 +30,3 @@ if (app.get('env') === 'development') app.use(morgan('tiny'))
 const port = process.env.NODE_PORT || 3000
 
 app.listen(port, () => console.log(`listening on port ${port}`))
-
