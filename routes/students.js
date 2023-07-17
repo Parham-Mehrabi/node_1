@@ -1,35 +1,7 @@
 const express = require('express');
-const Joi = require('joi');
 const students_route = express.Router()
-const Mongoose = require('mongoose')
-const Student = require('../models/student_model')
-
-function validateStudent(data) {
-    const schema = Joi.object().keys(
-        {
-            name: Joi.string().min(3).required()
-        }
-    )
-    resault = schema.validate(data)
-    return resault
-}
-
-async function getStudents(){
-    try{
-
-        await Mongoose.connect('mongodb://127.0.0.1/node_app')
-        const students = await Student.find()
-        return students
-    }
-    catch (error){
-        console.error(error)
-    }
-    finally{
-        await Mongoose.disconnect();
-    }
-    
-}
-
+const validateStudent = require('../validations/validate_students')
+const { getStudents, createNewStudent } = require('../data/student_queries')
 
 students_route.get('/', async (req, res) => {
     const students = await getStudents()
@@ -37,23 +9,30 @@ students_route.get('/', async (req, res) => {
 });
 
 
-students_route.get('/:id', (req, res) => {
-    const id = parseInt(req.params.id)
-    const student = students.find(s => s.id === id);
+students_route.get('/:name',async (req, res) => {
+    const name = req.params.name
+    const students = await getStudents(name)
+    const student = students.find(s => s.name.toLowerCase() === name.toLowerCase());
     if (!student) return res.status(404).send('student with the given ID not found')
     res.send(student)
 });
 
 
-students_route.post('/', (req, res) => {
+students_route.post('/',async (req, res) => {
+    // validation:
     const { error } = validateStudent(req.body)
     if (error) return res.status(400).send(error.details[0].message)
+    // add new user
     const new_student = {
-        'id': students.length + 1,
         'name': req.body.name
     };
-    students.push(new_student)
-    res.send(students)
+    try{
+        await createNewStudent(new_student)
+        res.status(201).send(new_student)
+    }
+    catch(e){
+        return res.status(400).send(e.details[0].message)
+    }
 })
 
 
@@ -67,7 +46,6 @@ students_route.put('/api/students/:id', (req, res) => {
     res.send(student)
 })
 
-
 students_route.delete('/api/students/:id', (req, res) => {
     const id = parseInt(req.params.id)
     const student = students.find(s => s.id === id)
@@ -76,6 +54,5 @@ students_route.delete('/api/students/:id', (req, res) => {
     res.status(204).send()
 
 })
-
 
 module.exports = students_route
