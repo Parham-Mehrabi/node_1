@@ -49,10 +49,10 @@ students_route.put('/:id', async (req, res) => {
 
     const student = await updateStudent(id, req.body)
     if (!student) return res.status(404).send('student with the given ID not found')
-    console.log(student)
-    student.name = req.body.name
-    
-    await student.save()
+
+    // sience we dont retrieve the object with getStudentObject, we dont need these steps anymore (unlike privious commits)
+    // student.name = req.body.name
+    // await student.save()
     res.send(student)
 })
 
