@@ -38,10 +38,10 @@ async function getStudentObject(id){
 }
 async function updateStudent(id, updated_fields){
     const student = await Student.findByIdAndUpdate(id, {
-        $set:{
-            updated_fields
-        }
-    })
+        $set:updated_fields
+    }, {new:true})
+    // this way we don't retrieve the object and save it here but we do it inside the DB
+    // the "{new:true} make the student object to be the updated version of the object"
     if (!student) return;
     return student
 
