@@ -36,9 +36,21 @@ async function getStudentObject(id){
     return studentObject
 
 }
+async function updateStudent(id, updated_fields){
+    const student = await Student.findByIdAndUpdate(id, {
+        $set:{
+            updated_fields
+        }
+    })
+    if (!student) return;
+    return student
+
+}
+
 
 
 module.exports.getStudents = getStudents
 module.exports.createNewStudent = createNewStudent
 module.exports.getStudentObject = getStudentObject
 module.exports.retrieveStudent = retrieveStudent
+module.exports.updateStudent = updateStudent
