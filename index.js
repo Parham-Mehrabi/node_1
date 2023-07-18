@@ -4,18 +4,26 @@ const config = require('config')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const authenticate = require('./middlewares/authenticate')
-const app = express();
 const students_route = require('./routes/students')
+const Mongoose = require('mongoose')
 
 
+const app = express();
 
-app.set('view engine', 'pug');
+async function startApp(){
+
+// connect to DataBase
+await Mongoose.connect('mongodb://127.0.0.1/node_app')
+console.log('connected to Mongodb')
+
+// load middle wares
+app.set('view engine', 'pug');      // pug middle ware which is a template engine
 app.set('views', './views');      // default value is the same but we can modify it from here
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(express.static('public'))
-app.use(authenticate)
-app.use(helmet())
+app.use(express.json())         // to read the req.body
+app.use(express.urlencoded({ extended: true }))         // here we can post data with urlencoded
+app.use(express.static('public'))           // specify the statics directory
+app.use(authenticate)                       // our costume middle ware for authorization
+app.use(helmet())           // helmet a security middleware
 
 
 app.get('/', (req, res) => {
@@ -30,3 +38,7 @@ if (app.get('env') === 'development') app.use(morgan('tiny'))
 const port = process.env.NODE_PORT || 3000
 
 app.listen(port, () => console.log(`listening on port ${port}`))
+
+}
+
+startApp()
