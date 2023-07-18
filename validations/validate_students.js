@@ -5,7 +5,7 @@ function validateStudent(data) {
 
     const schema = Joi.object().keys(
         {
-            name: Joi.string().min(3).required()
+            name: Joi.string().min(3).required().trim()
         }
     )
     resault = schema.validate(data)

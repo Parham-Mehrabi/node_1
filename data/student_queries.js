@@ -12,19 +12,33 @@ async function createNewStudent(new_student){
     }
 }
 
-async function getStudents(name){
+async function getStudents(){
     try{
-        if (!name){
-            return await Student.find()
-        }else if(name){
-            return await Student.find({name: new RegExp(`^${name}$`, 'i')}).select({name:1, _id:1})
-            // return await Student.find({name: name})      this one is Case-sensetive
-        }
+        return await Student.find()
     }
     catch (error){
         console.error(error)
     }
 }
+async function retrieveStudent(id){
+    try{
+        return await Student.findById(id)
+    }
+    catch (error){
+        console.error(error)
+        return
+    }
+}
+
+async function getStudentObject(id){
+    const studentObject = await Student.findById(id)
+    if (!studentObject) return;
+    return studentObject
+
+}
+
 
 module.exports.getStudents = getStudents
 module.exports.createNewStudent = createNewStudent
+module.exports.getStudentObject = getStudentObject
+module.exports.retrieveStudent = retrieveStudent

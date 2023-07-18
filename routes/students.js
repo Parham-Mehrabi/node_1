@@ -1,18 +1,19 @@
 const express = require('express');
 const students_route = express.Router()
 const validateStudent = require('../validations/validate_students')
-const { getStudents, createNewStudent } = require('../data/student_queries')
+const { getStudents, createNewStudent, getStudentObject, retrieveStudent } = require('../data/student_queries')
+const mongoose = require('mongoose')
+
 
 students_route.get('/', async (req, res) => {
     const students = await getStudents()
-    res.send(students.map(s => s.name));
+    res.send(students.map((s) => ({ id: s._id, name: s.name })));
 });
 
 
-students_route.get('/:name',async (req, res) => {
-    const name = req.params.name
-    const students = await getStudents(name)
-    const student = students.find(s => s.name.toLowerCase() === name.toLowerCase());
+students_route.get('/:id',async (req, res) => {
+    const id = req.params.id
+    const student = await retrieveStudent(id)
     if (!student) return res.status(404).send('student with the given ID not found')
     res.send(student)
 });
@@ -36,17 +37,25 @@ students_route.post('/',async (req, res) => {
 })
 
 
-students_route.put('/api/students/:id', (req, res) => {
+students_route.put('/:id', async (req, res) => {
     const { error } = validateStudent(req.body)
     if (error) return res.status(400).send(error.details[0].message)
-    const id = parseInt(req.params.id)
-    const student = students.find(s => s.id === id)
+
+    // get the id from url
+    const id = req.params.id
+
+    // check if id looks like a real id
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).send('invalid ID')
+
+    const student = await getStudentObject(id)
     if (!student) return res.status(404).send('student with the given ID not found')
+    console.log(student)
     student.name = req.body.name
+    await student.save()
     res.send(student)
 })
 
-students_route.delete('/api/students/:id', (req, res) => {
+students_route.delete('/:id', (req, res) => {
     const id = parseInt(req.params.id)
     const student = students.find(s => s.id === id)
     const index = students.indexOf(student);
