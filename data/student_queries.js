@@ -47,8 +47,8 @@ async function updateStudent(id, updated_fields){
 
 }
 async function deleteStudent(id){
-    // const student = await Student.findByIdAndRemove(id)
-    const student = await Student.deleteOne({_id: id})
+    const student = await Student.findByIdAndRemove(id)
+    // const student = await Student.deleteOne({_id: id})
     if (!student) return;
     return student
 }
