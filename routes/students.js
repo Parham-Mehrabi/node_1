@@ -1,7 +1,7 @@
 const express = require('express');
 const students_route = express.Router()
 const validateStudent = require('../validations/validate_students')
-const { getStudents, createNewStudent, updateStudent, retrieveStudent } = require('../data/student_queries')
+const { getStudents, createNewStudent, updateStudent, retrieveStudent, deleteStudent } = require('../data/student_queries')
 const mongoose = require('mongoose')
 
 
@@ -56,11 +56,15 @@ students_route.put('/:id', async (req, res) => {
     res.send(student)
 })
 
-students_route.delete('/:id', (req, res) => {
-    const id = parseInt(req.params.id)
-    const student = students.find(s => s.id === id)
-    const index = students.indexOf(student);
-    students.splice(index, 1);
+students_route.delete('/:id', async(req, res) => {
+
+    const id = req.params.id
+
+    // check if id looks like a real id
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).send('invalid ID')
+
+    const student = await deleteStudent(id)
+    if (!student) return res.status(404).send('student with the given ID not found')
     res.status(204).send()
 })
 

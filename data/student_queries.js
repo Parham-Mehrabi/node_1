@@ -46,6 +46,11 @@ async function updateStudent(id, updated_fields){
     return student
 
 }
+async function deleteStudent(id){
+    const student = await Student.findByIdAndRemove(id)
+    if (!student) return;
+    return student
+}
 
 
 
@@ -54,3 +59,4 @@ module.exports.createNewStudent = createNewStudent
 module.exports.getStudentObject = getStudentObject
 module.exports.retrieveStudent = retrieveStudent
 module.exports.updateStudent = updateStudent
+module.exports.deleteStudent = deleteStudent
