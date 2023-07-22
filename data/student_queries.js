@@ -5,6 +5,9 @@ async function createNewStudent(new_student){
     try{
         const newStudent = new Student
         newStudent.name = new_student.name
+        await newStudent.validate((err)=> {
+            console.log(err)
+        })
         await newStudent.save()
     }
     catch (error){
