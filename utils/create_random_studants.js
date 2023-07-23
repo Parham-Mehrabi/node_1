@@ -10,14 +10,19 @@ async function createStudents() {
         const my_promises = []
         for (let i = 0; i < 10; i++) {
             const studentObject = new Student
+            // studentObject.name = 'parham'
             studentObject.name = faker.name.firstName()
             my_promises.push(studentObject.save())
         }
         const students = await Promise.all(my_promises)
         students.map(student => console.log(student.name + ' created'))
         await mongoose.disconnect()
+    }
+    catch (error){return console.error('ERROR:', error)}
+    finally{
         console.log('Disconnected from Mongo.');
     }
-    catch (error){console.error('ERROR:', error)}
 }
 createStudents()
+
+
