@@ -24,15 +24,13 @@ students_route.post('/',async (req, res) => {
     const { error } = validateStudent(req.body)
     if (error) return res.status(400).send(error.details[0].message)
     // add new user
-    const new_student = {
-        'name': req.body.name
-    };
     try{
-        await createNewStudent(new_student)
+        const new_student = await createNewStudent(req.body)
         res.status(201).send(new_student)
     }
     catch(e){
-        return res.status(400).send(e.details[0].message)
+        console.log(e)
+        return res.status(400).send(e)
     }
 })
 
