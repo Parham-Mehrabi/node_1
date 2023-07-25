@@ -12,8 +12,8 @@ async function createStudents() {
             const studentObject = new Student
             // studentObject.name = 'parham'
             studentObject.name = faker.name.firstName()
-            studentObject.tags = faker.datatype.array(faker.random.number(3))
-            studentObject.tags2 = faker.datatype.array((faker.random.number(3)+1))
+            studentObject.tags = faker.datatype.array(faker.datatype.number(3))
+            studentObject.tags2 = faker.datatype.array((faker.datatype.number(3)+1))
             my_promises.push(studentObject.save())
         }
         const students = await Promise.all(my_promises)
