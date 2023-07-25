@@ -7,6 +7,8 @@ const studentSchema = new Mongoose.Schema({
         type: String,
         required: true,
         trim: true,
+        // uppercase: true,
+        lowercase: true,
     },
     nickName: {
         type: String,
@@ -28,6 +30,15 @@ const studentSchema = new Mongoose.Schema({
             message: 'a student should at least has one tag2'
         }
         // both tags and tags2 are required but you can pass an empty array [] to the second one
+
+    },
+    price: {
+        type: Number,
+        required: function() { return this.nickName; },
+        min: 10,
+        max: 100,
+        get: (v) => Math.round(v),
+        set: (v) => Math.round(v)
 
     }
 })
