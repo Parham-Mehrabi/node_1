@@ -1,4 +1,6 @@
 const Mongoose = require('mongoose')
+const { myAsyncValidationWork } = require('../validations/model_validations/students')
+
 
 const studentSchema = new Mongoose.Schema({
     name: {
@@ -9,7 +11,7 @@ const studentSchema = new Mongoose.Schema({
     nickName: {
         type: String,
         enum: ['kami sama', 'parham sama'],
-        required: function () {return this.name === 'parham'} 
+        required: function () { return this.name === 'parham' }
         // this field (nickName) is only required when name is equal to parham
     },
     tags: {
@@ -20,7 +22,9 @@ const studentSchema = new Mongoose.Schema({
     tags2: {
         type: Array,
         validate: {
-            validator: function(v) { return v.length > 0},
+            validator: async function (v) {
+                return await myAsyncValidationWork(v)
+            },
             message: 'a student should at least has one tag2'
         }
         // both tags and tags2 are required but you can pass an empty array [] to the second one
@@ -31,3 +35,4 @@ const studentSchema = new Mongoose.Schema({
 const Student = Mongoose.model('students', studentSchema)
 
 module.exports = Student
+
