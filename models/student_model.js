@@ -32,15 +32,15 @@ const studentSchema = new Mongoose.Schema({
         // both tags and tags2 are required but you can pass an empty array [] to the second one
 
     },
-    price: {
-        type: Number,
-        required: function() { return this.nickName; },
-        min: 10,
-        max: 100,
-        get: (v) => Math.round(v),
-        set: (v) => Math.round(v)
+    // price: {
+    //     type: Number,
+    //     required: function() { return this.nickName; },
+    //     min: 10,
+    //     max: 100,
+    //     get: (v) => Math.round(v),      // to round the price when we retrieving the document
+    //     set: (v) => Math.round(v),      // to save the rounded price when we are saving the document
 
-    }
+    // }
 })
 
 const Student = Mongoose.model('students', studentSchema)
