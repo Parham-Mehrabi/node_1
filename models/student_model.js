@@ -1,8 +1,10 @@
-const Mongoose = require('mongoose')
+const mongoose = require('mongoose')
 const { myAsyncValidationWork } = require('../validations/model_validations/students')
+const { courseSchema, courseInstanceSchema } = require('./course')
+const { tagSchema } = require('./tag')
 
 
-const studentSchema = new Mongoose.Schema({
+const studentSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -10,40 +12,30 @@ const studentSchema = new Mongoose.Schema({
         // uppercase: true,
         lowercase: true,
     },
-    nickName: {
-        type: String,
-        enum: ['kami sama', 'parham sama'],
-        required: function () { return this.name === 'parham' }
-        // this field (nickName) is only required when name is equal to parham
-    },
-    tags: {
-        type: [String],
-        required: true,
-        // how ever its required but its allowed to save [] so its not what we want
-    },
-    tags2: {
-        type: Array,
+
+    // embeded(nested) aproach
+    tags: {     // embeded
+        type: [tagSchema],
         validate: {
             validator: async function (v) {
                 return await myAsyncValidationWork(v)
             },
-            message: 'a student should at least has one tag2'
-        }
-        // both tags and tags2 are required but you can pass an empty array [] to the second one
-
+            message: 'a student should at least has one tag'
+        },
     },
-    // price: {
-    //     type: Number,
-    //     required: function() { return this.nickName; },
-    //     min: 10,
-    //     max: 100,
-    //     get: (v) => Math.round(v),      // to round the price when we retrieving the document
-    //     set: (v) => Math.round(v),      // to save the rounded price when we are saving the document
 
-    // }
+    // refrence aproach
+    friends: [{  // refrence
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Student',
+    }],
+
+    // hybrid aproach
+    courses: {      // hybrid
+        type: [courseInstanceSchema],
+    },
 })
 
-const Student = Mongoose.model('students', studentSchema)
+const Student = mongoose.model('Student', studentSchema)
 
 module.exports = Student
-
