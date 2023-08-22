@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const { myAsyncValidationWork } = require('../validations/model_validations/students')
-const { courseSchema, courseInstanceSchema } = require('./course')
+const { courseInstanceSchema } = require('./course')
 const { tagSchema } = require('./tag')
 
 

@@ -24,3 +24,4 @@ async function createTags() {
 };
 createTags();
 
+module.exports = createTags;
