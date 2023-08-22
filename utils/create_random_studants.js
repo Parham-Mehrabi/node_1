@@ -10,7 +10,6 @@ async function createStudents() {
         const my_promises = []
         for (let i = 0; i < 10; i++) {
             const studentObject = new Student
-            // studentObject.name = 'parham'
             studentObject.name = faker.name.firstName()
             studentObject.tags = faker.datatype.array(faker.datatype.number(3))
             studentObject.tags2 = faker.datatype.array((faker.datatype.number(3)+1))
