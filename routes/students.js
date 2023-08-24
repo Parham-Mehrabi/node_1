@@ -1,17 +1,22 @@
 const express = require('express');
-const students_route = express.Router()
+const mongoose = require('mongoose')
 const validateStudent = require('../validations/validate_students')
 const { getStudents, createNewStudent, updateStudent, retrieveStudent, deleteStudent } = require('../data/student_queries')
-const mongoose = require('mongoose')
+const friends_routes = require('./students_friends')
+const tags_routes = require('./students_tags')
 
+const students_route = express.Router()
 
 students_route.get('/', async (req, res) => {
     const students = await getStudents()
-    res.send(students.map((s) => ({ id: s._id, name: s.name })));
+    res.send(students.map((s) => ({
+        id: s._id, name: s.name,
+        friends: s.friends,
+    })));
 });
 
 
-students_route.get('/:id',async (req, res) => {
+students_route.get('/:id', async (req, res) => {
     const id = req.params.id
     const student = await retrieveStudent(id)
     if (!student) return res.status(404).send('student with the given ID not found')
@@ -19,16 +24,16 @@ students_route.get('/:id',async (req, res) => {
 });
 
 
-students_route.post('/',async (req, res) => {
+students_route.post('/', async (req, res) => {
     // validation:
     const { error } = validateStudent(req.body)
     if (error) return res.status(400).send(error.details[0].message)
     // add new user
-    try{
+    try {
         const new_student = await createNewStudent(req.body)
         res.status(201).send(new_student)
     }
-    catch(e){
+    catch (e) {
         console.log(e)
         return res.status(400).send(e)
     }
@@ -54,7 +59,7 @@ students_route.put('/:id', async (req, res) => {
     res.send(student)
 })
 
-students_route.delete('/:id', async(req, res) => {
+students_route.delete('/:id', async (req, res) => {
 
     const id = req.params.id
 
@@ -65,5 +70,7 @@ students_route.delete('/:id', async(req, res) => {
     if (!student) return res.status(404).send('student with the given ID not found')
     res.status(204).send()
 })
+students_route.use('/:id/friends', friends_routes)
+students_route.use('/:id/tags', tags_routes)
 
 module.exports = students_route

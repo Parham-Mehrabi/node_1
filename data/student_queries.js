@@ -5,9 +5,7 @@ async function createNewStudent(new_student) {
 
     const newStudent = new Student
     newStudent.name = new_student.name
-    newStudent.nickName = new_student.nickName
     newStudent.tags = new_student.tags
-    newStudent.tags2 = new_student.tags2
     // await newStudent.validate((err)=> {
     //     console.log(err)
     // })
