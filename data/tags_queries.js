@@ -22,7 +22,7 @@ async function removeTag(student_id, tag_id) {
     const tag = await Tag.findById(tag_id)
     if (!tag) throw Error('tag id is not valid')
     const updated_student =  await Student.findByIdAndUpdate(student_id, {
-        $pullAll: { tags: tag }
+        $pull: { tags: tag }
     },
         { new: true })
 
