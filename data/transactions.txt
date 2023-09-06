@@ -1,0 +1,66 @@
+ in mongoDB we dont have transactions, but we have '2 phase commit',
+ how ever we can use a library called "fawn" that simulate transactions in Mongodb,
+ this library use '2 phase commit' to do that.
+
+
+ to install it we can use npm with:
+ $ npm i fawn
+
+to use it first we need to load it:
+
+const Fawn = require('fawn');
+
+then we need to initialize it and pass our mongoose object (which we loaded with: const mongoose = require('mongoose'))
+
+Fawn.init(mongoose);
+
+then instead of doing some connected CRUD oporations we use fawn like this:
+
+new Fawn.Task()
+    .save('plural_collection_name_1', 'document_object_we_want_to_save')
+    .update('plural_collection_name_2', {_id: updated_object.id}, {$inc : { field_we_want_to_change: -1 }})
+    .other_crud_method_we_need_to_call()
+    .run()
+
+
+clearly we can chain our oporations like this with no limit,
+but we have to call run() in the end otherwise none of those will run,
+and it is obvious that for example .save() require 2 arguments while .update() 
+requires 3 arguments and the reason is it need to know which object it is going to update,
+
+
+--------------------------------------------------------------------
+
+the reason we use transactions is for example in a scnario,
+a user buy something and we update his balance but the for some reason,
+we cant update our products document and the purches fails,
+but in this case our costumer losses money, but in transactions either all the
+oporations pass or neither of them pass
+
+in other words when we create a transactions and declare some oporations in it,
+if one of them fails, neither of them will applay in the end
+
+
+
+
+
+-------------------------------------------------------------
+
+
+the code snipet above only handle if transaction complete successfully,
+to handle any error during oporations we should put it on try-catch blocks:
+
+
+try{
+    new Fawn.Task()
+        .save('carts', costumer_cart)
+        .update('products',
+                { _id: costumer_product.id},
+                { $inc: { numberInStock: -1 }}
+                )
+        .run();
+}
+catch{
+    res.status(500).send('Internal Server Error ! ! !');
+    // log what happend
+}

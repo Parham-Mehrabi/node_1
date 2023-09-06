@@ -15,3 +15,10 @@ in this commit we created some end point to manage student_friends
 in this case Student.friends is a rel to itself which means this field contains an Object_id which refrence Student model itself.   
 
 there is also a little more detail for example using populate and using child-routes(students_friends) in parent-routes(student_routes)   
+
+<hr>
+<h2> there is a list of notes in our project that either explain something or teach something :</h2>
+<ul>
+<li>/config/help.txt</li>
+<li>/data/transactions.txt</li>
+</ul>
