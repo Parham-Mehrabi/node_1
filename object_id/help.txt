@@ -1,0 +1,16 @@
+default id has 24 characters which means 12 bytes.
+
+12 bytes:
+    1-4 (first 4): timestamp
+    5-7 (next 3): machine identifier
+    8-9 (next 2): process identifier
+    10-12 (last 3): counter
+
+
+since the id itself has timestamp we don't need to specify something like created_at in our object, we can simple use it,
+for example if we want to sort them according to their created date we can sort them by id,
+and also we can extract it from id using :
+const time = id.timestamp()     // check in ./example.js
+
+
+

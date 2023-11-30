@@ -22,7 +22,7 @@ friends_routes.post('/', async (req, res) => {
     }
     catch (error) {
         console.error(error);
-        res.status(500).send('server error :(')                 // if unexpected server error happend return 500
+        res.status(500).send('server error :(')                 // if unexpected server error happened return 500
     }
 });
 
