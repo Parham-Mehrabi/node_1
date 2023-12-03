@@ -1,0 +1,3 @@
+to make things clear i use another student model for authentication part,
+
+so here i declare student model again ! ! ! (this is just for a better tutorial)

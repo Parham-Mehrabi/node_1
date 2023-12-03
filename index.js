@@ -6,7 +6,7 @@ const morgan = require('morgan')
 const authenticate = require('./middlewares/authenticate')
 const students_route = require('./routes/students')
 const Mongoose = require('mongoose')
-
+const auth_route = require('./routes/auth_routes/auth_routes')
 
 const app = express();
 
@@ -31,8 +31,8 @@ async function startApp() {
     app.get('/', (req, res) => {    // index page to use pug
         res.render('index', { title: 'my title for index', message: 'this is page rendered using pug' })
     })
-    app.use('/api/students/', students_route)
-
+    app.use('/api/students/', students_route)   // student end-points
+    app.use('/api/auth/', auth_route)           // authentication end-pints
 
     // logs:
     if (app.get('env') === 'development') app.use(morgan('tiny'))
