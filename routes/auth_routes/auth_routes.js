@@ -34,8 +34,13 @@ auth_route.post('/login', async (req, res) => {
     if (!is_valid) return res.status(400).send('Invalid username or password.')
 
     token = jwt.sign({email: user.email}, config.get('JWT_SECRET_KEY'))
-    res.send(token)
+    res.header('x-auth-token', token).send(token)     // here we set the header x-access-token so we can set cookie in our front-end
 })
 
+
+auth_route.get('/whoami', async (req, res) => {
+    if (!req.is_authenticated) return res.status(401).send('You Are Not Authenticated.')
+    res.send(_.pick(req, ['user']))
+})
 
 module.exports = auth_route

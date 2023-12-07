@@ -1,0 +1,4 @@
+we add new header after login called x-auth-token and expect our user to show their token like that in their next request to authenticate themselves
+
+in /whoami end-point we are using req.user and req.is_authenticated that we add to request object in our authentication middleware,
+this is simple how we can make our endpoints login_required or something like that
