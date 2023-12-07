@@ -1,6 +1,7 @@
 const express = require('express')
 const createNewUser = require('../../data/auth_queries/auth_register')
 const AuthUser = require('../../models/authentication/student_model')
+const _  = require('lodash')
 
 const auth_route = express.Router()
 
@@ -13,9 +14,10 @@ auth_route.post('/register', async (req, res) => {
     try {
 
         const new_student = await createNewUser(req.body)
-        res.send(new_student)
+        res.send(_.pick(new_student, ['_id', 'email']))
+        return
     }catch (e){
-        res.status(400).send(e.errors)  // we need to handle it more properly
+        return res.status(400).send(e.errors)  // we need to handle it more properly
     }
 
 })

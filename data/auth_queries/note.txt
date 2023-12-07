@@ -1,0 +1,13 @@
+here instead of creating a new student and add properties to it like:
+    const newStudent = new AuthStudent()
+    newStudent.email = req.body.email
+    newStudent.password = req.body.password
+
+we did it directly when creating the object like this:
+    const newStudent = new AuthStudent({email:new_student.email, password: new_student.password})
+
+
+BUT later we used 'lodash' package to avoid do it manually so now we just say:
+
+    const newStudent = new AuthStudent( _.pick(new_student, ['email', 'password']))
+
