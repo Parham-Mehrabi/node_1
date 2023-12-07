@@ -1,3 +1,4 @@
 {
-    "mail":"some hard coded value"
+    "mail":"some hard coded value",
+    "JWT_SECRET_KEY": "a_secret_privet_key"
 }

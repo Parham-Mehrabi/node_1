@@ -23,3 +23,12 @@ second, config modules have some priorities as follows:
 
 # if there is no key with that name in ENV or the value of the key be empty (e.g PATH='') then it doesnt count,
     which means it will check other steps
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+in environment variables where you run the app, you can modify the value of app.get(env),
+if you don't have NODE_ENV, then the default value of app.get(env) is "development"
+

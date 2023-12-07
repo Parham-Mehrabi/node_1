@@ -11,6 +11,10 @@ const auth_route = require('./routes/auth_routes/auth_routes')
 const app = express();
 
 async function startApp() {
+    if(!config.get('JWT_SECRET_KEY')){
+         console.log('FATAL ERROR: JWT PRIVATE KEY NOT FOUND')
+         process.exit(1)
+        }
 
     // connect to DataBase:
     await Mongoose.connect('mongodb://127.0.0.1/node_app')

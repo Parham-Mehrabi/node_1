@@ -4,6 +4,10 @@ const AuthUser = require('../../models/authentication/student_model')
 const _ = require('lodash')
 const hashedPassword = require('./hash')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const config = require('config')
+
+
 const auth_route = express.Router()
 
 auth_route.post('/register', async (req, res) => {
@@ -27,8 +31,10 @@ auth_route.post('/login', async (req, res) => {
     if (!user) return res.status(400).send('Invalid username or password.')
 
     const is_valid = await bcrypt.compare(req.body.password, user.password)   // check if password is correct
-    if (is_valid) return res.send('Logged in ! ! !')
-    else return res.status(400).send('Invalid username or password.')
+    if (!is_valid) return res.status(400).send('Invalid username or password.')
+
+    token = jwt.sign({email: user.email}, config.get('JWT_SECRET_KEY'))
+    res.send(token)
 })
 
 
