@@ -1,0 +1,3 @@
+clearly hash.js belong to tools but i put it here to make things simple
+
+for each user's password, first we create a new Salt then hash their password with their own Salt
