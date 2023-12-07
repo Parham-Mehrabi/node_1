@@ -6,7 +6,7 @@ const hashedPassword = require('./hash')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('config')
-
+const login_required = require('../../middlewares/login_required')
 
 const auth_route = express.Router()
 
@@ -40,7 +40,13 @@ auth_route.post('/login', async (req, res) => {
 
 auth_route.get('/whoami', async (req, res) => {
     if (!req.is_authenticated) return res.status(401).send('You Are Not Authenticated.')
-    res.send(_.pick(req, ['user']))
+    return res.send(_.pick(req, ['user']))
+})
+
+
+auth_route.get('/login_required',login_required , async (req, res) => {
+    // by putting login_required middle ware as second argument here, we make this route as login_required
+    return res.send('Access granted')
 })
 
 module.exports = auth_route

@@ -1,0 +1,5 @@
+we used our previous middle-wares for every route by using 
+app.use(middleware-name)
+
+but for login_required middleware, we just want to apply it to some specific routes, so we pass this middleware as
+ second argument to our route handler

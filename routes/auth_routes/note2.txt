@@ -2,3 +2,7 @@ we add new header after login called x-auth-token and expect our user to show th
 
 in /whoami end-point we are using req.user and req.is_authenticated that we add to request object in our authentication middleware,
 this is simple how we can make our endpoints login_required or something like that
+
+
+in our /login_required we are using another middle ware were we drop unauthorized users
+you can easily create read_only middle wares like Django where you check the req.method and then drop some users
