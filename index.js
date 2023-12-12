@@ -17,8 +17,14 @@ async function startApp() {
         }
 
     // connect to DataBase:
-    await Mongoose.connect('mongodb://127.0.0.1/node_app')
-    console.log('connected to Mongodb')
+    try{
+        throw('Error')
+        await Mongoose.connect('mongodb://127.0.0.1/node_app')
+        console.log('connected to Mongodb')
+    }catch{
+        // log the error
+        console.log('Failed to connect to mongoDB')
+    }
 
     // load middle wares:
     app.set('view engine', 'pug');                      // pug middle ware which is a template engine

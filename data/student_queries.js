@@ -22,13 +22,8 @@ async function getStudents() {
     }
 }
 async function retrieveStudent(id) {
-    try {
-        return await Student.findById(id)
-    }
-    catch (error) {
-        console.error(error)
-        return
-    }
+    return await Student.findById(id)
+
 }
 
 async function getStudentObject(id) {

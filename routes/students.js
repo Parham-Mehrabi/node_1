@@ -8,19 +8,31 @@ const tags_routes = require('./students_tags')
 const students_route = express.Router()
 
 students_route.get('/', async (req, res) => {
-    const students = await getStudents()
-    res.send(students.map((s) => ({
-        id: s._id, name: s.name,
-        friends: s.friends,
-    })));
+    try{
+        const students = await getStudents()
+        return res.send(students.map((s) => ({
+            id: s._id, name: s.name,
+            friends: s.friends,
+        })));
+    }
+    catch(e){
+        console.log(e)
+        return res.status(500).send('Internal Server Error.')
+    }
 });
 
 
 students_route.get('/:id', async (req, res) => {
     const id = req.params.id
-    const student = await retrieveStudent(id)
-    if (!student) return res.status(404).send('student with the given ID not found')
-    res.send(student)
+    try{
+        const student = await retrieveStudent(id)
+        if (!student) return res.status(404).send('student with the given ID not found')
+        return res.send(student)
+    }catch(e){
+        res.status(500).send('Internal Server Error')
+        console.log(e)
+        return
+    }
 });
 
 

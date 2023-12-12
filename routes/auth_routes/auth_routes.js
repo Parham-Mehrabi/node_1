@@ -11,9 +11,14 @@ const login_required = require('../../middlewares/login_required')
 const auth_route = express.Router()
 
 auth_route.post('/register', async (req, res) => {
+    try {
 
-    let user = await AuthUser.findOne({ email: req.body.email });
-    if (user) return res.status(400).send('user already registered')
+        let user = await AuthUser.findOne({ email: req.body.email });
+        if (user) return res.status(400).send('user already registered')
+    } catch (e) {
+        // Logging Error
+        return res.status(500).send('Internal Server Error')
+    }
     try {
         const raw_password = req.body.password
         req.body.password = await hashedPassword(raw_password)
@@ -33,7 +38,7 @@ auth_route.post('/login', async (req, res) => {
     const is_valid = await bcrypt.compare(req.body.password, user.password)   // check if password is correct
     if (!is_valid) return res.status(400).send('Invalid username or password.')
 
-    token = jwt.sign({email: user.email}, config.get('JWT_SECRET_KEY'))
+    token = jwt.sign({ email: user.email }, config.get('JWT_SECRET_KEY'))
     res.header('x-auth-token', token).send(token)     // here we set the header x-access-token so we can set cookie in our front-end
 })
 
@@ -44,7 +49,7 @@ auth_route.get('/whoami', async (req, res) => {
 })
 
 
-auth_route.get('/login_required',login_required , async (req, res) => {
+auth_route.get('/login_required', login_required, async (req, res) => {
     // by putting login_required middle ware as second argument here, we make this route as login_required
     return res.send('Access granted')
 })
