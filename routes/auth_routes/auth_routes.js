@@ -10,14 +10,12 @@ const login_required = require('../../middlewares/login_required')
 
 const auth_route = express.Router()
 
-auth_route.post('/register', async (req, res) => {
+auth_route.post('/register', async (req, res, next) => {
     try {
-
         let user = await AuthUser.findOne({ email: req.body.email });
         if (user) return res.status(400).send('user already registered')
     } catch (e) {
-        // Logging Error
-        return res.status(500).send('Internal Server Error')
+        return next(e)
     }
     try {
         const raw_password = req.body.password

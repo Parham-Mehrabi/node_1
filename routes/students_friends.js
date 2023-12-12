@@ -10,7 +10,7 @@ friends_routes.get('/', async (req, res) => {
     res.send(student);
 });
 
-friends_routes.post('/', async (req, res) => {
+friends_routes.post('/', async (req, res, next) => {
     try{
         const student_id = req.params.id
         const friend_id = req.body.friend_id
@@ -21,8 +21,7 @@ friends_routes.post('/', async (req, res) => {
         return res.status(404).send('user not found')           // if student_ID was not valid return 404
     }
     catch (error) {
-        console.error(error);
-        res.status(500).send('server error :(')                 // if unexpected server error happened return 500
+        return next(e)
     }
 });
 
@@ -37,8 +36,7 @@ friends_routes.delete('/', async (req, res) => {
         return res.status(404).send('user not found')   
     }
     catch (error){
-        console.log(error)
-        res.status(500).send('server error :(')
+        next()
     }
 })
 

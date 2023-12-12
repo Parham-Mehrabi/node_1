@@ -1,0 +1,5 @@
+at first we use try/catch to send the proper message to user and log the Error for ourself,
+but if every try to change the message or change the logging system, we should modify all the routes,
+so we use another approach, we created a new middleware called error.js, and put it next to our last route,
+then, instead of handling error in catch for each route, we call the next() and send the error to this middleware
+

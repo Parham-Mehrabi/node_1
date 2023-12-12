@@ -22,16 +22,14 @@ students_route.get('/', async (req, res) => {
 });
 
 
-students_route.get('/:id', async (req, res) => {
+students_route.get('/:id', async (req, res, next) => {
     const id = req.params.id
     try{
         const student = await retrieveStudent(id)
         if (!student) return res.status(404).send('student with the given ID not found')
         return res.send(student)
     }catch(e){
-        res.status(500).send('Internal Server Error')
-        console.log(e)
-        return
+        return next()
     }
 });
 
