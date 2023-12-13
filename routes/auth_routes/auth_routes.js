@@ -7,27 +7,19 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('config')
 const login_required = require('../../middlewares/login_required')
+const error_handler = require('../../middlewares/error_handler')
 
 const auth_route = express.Router()
 
-auth_route.post('/register', async (req, res, next) => {
-    try {
-        let user = await AuthUser.findOne({ email: req.body.email });
-        if (user) return res.status(400).send('user already registered')
-    } catch (e) {
-        return next(e)
-    }
-    try {
-        const raw_password = req.body.password
-        req.body.password = await hashedPassword(raw_password)
-        const new_student = await createNewUser(req.body)
-        res.send(_.pick(new_student, ['_id', 'email']))
-        return
-    } catch (e) {
-        return res.status(400).send(e.errors)  // we need to handle it more properly
-    }
+auth_route.post('/register', error_handler(async (req, res) => {        // here we wrapped our route-handler to the wrapper
+    let user = await AuthUser.findOne({ email: req.body.email });
+    if (user) return res.status(400).send('user already registered')
+    const raw_password = req.body.password
+    req.body.password = await hashedPassword(raw_password)
+    const new_student = await createNewUser(req.body)
+    return res.send(_.pick(new_student, ['_id', 'email']))
+}))
 
-})
 
 auth_route.post('/login', async (req, res) => {
     let user = await AuthUser.findOne({ email: req.body.email });       // check if user exists

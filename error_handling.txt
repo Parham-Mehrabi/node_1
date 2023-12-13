@@ -3,3 +3,10 @@ but if every try to change the message or change the logging system, we should m
 so we use another approach, we created a new middleware called error.js, and put it next to our last route,
 then, instead of handling error in catch for each route, we call the next() and send the error to this middleware
 
+But having a try/catch block in every route that do exactly is a little messy,
+so we should create a wrapper function like (decorators in Python) and wrap our route handler into it,
+just as i did in ./route/auth_routes/auth_routes.js/'/register' 
+
+the wrapper function is another middle ware that we call error_handler in middlewares
+
+so our routes would be cleaner and we don't duplicate our code
