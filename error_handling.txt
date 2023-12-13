@@ -2,11 +2,45 @@ at first we use try/catch to send the proper message to user and log the Error f
 but if every try to change the message or change the logging system, we should modify all the routes,
 so we use another approach, we created a new middleware called error.js, and put it next to our last route,
 then, instead of handling error in catch for each route, we call the next() and send the error to this middleware
+-----------------------------------------------------------------------------------------------------------------
+
+
 
 But having a try/catch block in every route that do exactly is a little messy,
 so we should create a wrapper function like (decorators in Python) and wrap our route handler into it,
 just as i did in ./route/auth_routes/auth_routes.js/'/register' 
 
 the wrapper function is another middle ware that we call error_handler in middlewares
+    auth_route.post('/register', error_handler(async (req, res) => {        // here we wrapped our route-handler to the wrapper
+        let user = await AuthUser.findOne({ email: req.body.email });
+        if (user) return res.status(400).send('user already registered')
+        const raw_password = req.body.password
+        req.body.password = await hashedPassword(raw_password)
+        const new_student = await createNewUser(req.body)
+        return res.send(_.pick(new_student, ['_id', 'email']))
+    }))
 
 so our routes would be cleaner and we don't duplicate our code
+-----------------------------------------------------------------------------------------------------------------
+
+
+
+in the third step we even remove the wrapper and don't even use that and return our route-handler to this:
+
+
+    auth_route.post('/register', async (req, res) => {        // here we wrapped our route-handler to the wrapper
+        let user = await AuthUser.findOne({ email: req.body.email });
+        if (user) return res.status(400).send('user already registered')
+        const raw_password = req.body.password
+        req.body.password = await hashedPassword(raw_password)
+        const new_student = await createNewUser(req.body)
+        return res.send(_.pick(new_student, ['_id', 'email']))
+    })
+
+instead, we use a package called "express-async-errors" this package automatically do the same thing and call next() for us,
+so we get into our error.js middleware if we innocenter unexpected errors
+
+we need to install it then just require it after express, we don't even need to store it in a variable
+how ever if it didn't work we still need to use previous approach where we create a wrapper exactly
+
+btw people usually call the wrapper function the "asyncMiddleware" but i called it error_handler 
