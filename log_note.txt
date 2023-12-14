@@ -1,0 +1,13 @@
+in index.js we create loggers and declare their levels, we can also use default log-level and modify it like this:
+
+const winston = require('winston')
+winston.add(new winston.transports.Console({level:'info'}))
+winston.level = 'silly'
+
+then whenever we need to log we can just either say:
+winston.log($loglevel, $message, $meta-data)
+or
+winston.$loglevel($message, $meta-data)
+
+
+for meta data we can pass the whole error object or an object including that and something else like a timestamp

@@ -1,7 +1,7 @@
 const express = require('express');
 require('express-async-errors')
 const config = require('config')
-// const logger = require('./middlewares/logger')
+const winston = require('winston')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const authenticate = require('./middlewares/authenticate')
@@ -12,6 +12,10 @@ const errorMiddleware = require('./middlewares/error')
 
 const app = express();
 
+winston.add(new winston.transports.File({filename:'logfile.log', level:'silly'}))   // here we add a new File logger with silly level
+winston.add(new winston.transports.Console({level:'info'}))                         // here we add a new console logger with info level
+// winston.level = 'warn'   // we can declare default log level like this   
+
 async function startApp() {
     if(!config.get('JWT_SECRET_KEY')){
          console.log('FATAL ERROR: JWT PRIVATE KEY NOT FOUND')
@@ -20,7 +24,7 @@ async function startApp() {
 
     // connect to DataBase:
     try{
-        throw('Error')
+        throw new Error('Testing Error')
         await Mongoose.connect('mongodb://127.0.0.1/node_app')
         console.log('connected to Mongodb')
     }catch{
