@@ -18,3 +18,10 @@ we can send our ErrorStack to it as metaData just as i did in middlewares/error.
     winston.error(e.message, { metadata: { myErrorStack:  e, otherKeys: "otherValues" } })
 name of metadata key is configured in index.js where we create a new winston transports for mongodb however its default is 'metadata' anyway
 
+
+
+
+but all of these only logs errors when they are inside of request pipeline, to capture all errors we need to do it on higher level,
+we add an event listener to process object like this:
+    process.on(process.on('uncaughtException', (error) => handleErrorFunction)
+and we can call winston inside of the function

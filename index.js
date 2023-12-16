@@ -13,23 +13,35 @@ const errorMiddleware = require('./middlewares/error')
 
 const app = express();
 
-winston.add(new winston.transports.File({filename:'logfile.log', level:'silly'}))   // here we add a new File logger with silly level
-winston.add(new winston.transports.Console({level:'info'}))                         // here we add a new console logger with info level
+
+winston.add(new winston.transports.File({ filename: 'logfile.log', level: 'silly' }))   // here we add a new File logger with silly level
+winston.add(new winston.transports.Console({ level: 'info' }))                         // here we add a new console logger with info level
 // winston.level = 'warn'   // we can declare default log level like this   
-winston.add(new winston.transports.MongoDB({db: 'mongodb://127.0.0.1/node_app_logs', metaKey: 'metadata' }))    // default metaKey is 'metadata' anyway
+winston.add(new winston.transports.MongoDB({
+    db: 'mongodb://127.0.0.1/node_app_logs',
+    metaKey: 'metadata',
+    level: 'error'
+}))
+
+process.on('uncaughtException', (error) => {
+    console.log('unexpected error handled')
+    winston.error('UnExpected Error', {metadata: error})
+})
+
+throw new Error('Some Error happened during start up.')
 
 async function startApp() {
-    if(!config.get('JWT_SECRET_KEY')){
-         console.log('FATAL ERROR: JWT PRIVATE KEY NOT FOUND')
-         process.exit(1)
-        }
+    if (!config.get('JWT_SECRET_KEY')) {
+        console.log('FATAL ERROR: JWT PRIVATE KEY NOT FOUND')
+        process.exit(1)
+    }
 
     // connect to DataBase:
-    try{
+    try {
         throw new Error('Testing Error')
         await Mongoose.connect('mongodb://127.0.0.1/node_app')
         console.log('connected to Mongodb')
-    }catch{
+    } catch {
         // log the error
         console.log('Failed to connect to mongoDB')
     }
