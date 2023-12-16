@@ -6,7 +6,6 @@ require('winston-mongodb')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const authenticate = require('./middlewares/authenticate')
-const Mongoose = require('mongoose')
 
 const app = express();
 
@@ -27,6 +26,7 @@ winston.add(new winston.transports.MongoDB({
 // })
 
 winston.exceptions.handle(new winston.transports.File({filename: 'unexpectedErrors.log'}))
+winston.exceptions.handle(new winston.transports.Console())
 // this one do the job itself and exit the app and its the correct way to handle it
 // we should restart the project using process managers after such errors happened
 
@@ -38,8 +38,7 @@ if (!config.get('JWT_SECRET_KEY')) {
 }
 
 // connect to DataBase:
-Mongoose.connect('mongodb://127.0.0.1/node_app').then(() => console.log('connected to Mongodb'))
-                                                .catch((err) => console.log("Could not Connect to MongoDB"))
+require('./startup/db')()
 
 // load middle wares:
 app.set('view engine', 'pug');                      // pug middle ware which is a template engine
@@ -53,7 +52,7 @@ app.use(helmet())                                   // helmet a security middlew
 
 
 // routes:
-require('./router')(app)
+require('./startup/router')(app)
 
 // logs:
 if (app.get('env') === 'development') app.use(morgan('tiny'))
@@ -61,4 +60,4 @@ if (app.get('env') === 'development') app.use(morgan('tiny'))
 
 // listen 
 const port = process.env.NODE_PORT || 3000
-app.listen(port, () => console.log(`listening on port ${port}`))
+app.listen(port, () => winston.info(`listening on port ${port}`))

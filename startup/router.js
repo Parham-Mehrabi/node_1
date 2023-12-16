@@ -1,8 +1,8 @@
 const express = require('express')
-const errorMiddleware = require('./middlewares/error')
-const students_route = require('./routes/students')
-const auth_route = require('./routes/auth_routes/auth_routes')
-const pug_route = require('./routes/pug_route')
+const errorMiddleware = require('../middlewares/error')
+const students_route = require('../routes/students')
+const auth_route = require('../routes/auth_routes/auth_routes')
+const pug_route = require('../routes/pug_route')
 
 module.exports = function(app){
     app.use('/', pug_route)
