@@ -5,9 +5,16 @@ winston.add(new winston.transports.Console({level:'info'}))
 winston.level = 'silly'
 
 then whenever we need to log we can just either say:
-winston.log($loglevel, $message, $meta-data)
+winston.log($logLevel, $message, $meta-data)
 or
-winston.$loglevel($message, $meta-data)
+winston.$logLevel($message, $meta-data)
 
 
 for meta data we can pass the whole error object or an object including that and something else like a timestamp
+
+
+next we add winston-mongodb package
+we can send our ErrorStack to it as metaData just as i did in middlewares/error.js
+    winston.error(e.message, { metadata: { myErrorStack:  e, otherKeys: "otherValues" } })
+name of metadata key is configured in index.js where we create a new winston transports for mongodb however its default is 'metadata' anyway
+

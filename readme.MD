@@ -12,7 +12,7 @@
 
 <hr>
 in this commit we created some end point to manage student_friends
-in this case Student.friends is a rel to itself which means this field contains an Object_id which refrence Student model itself.   
+in this case Student.friends is a rel to itself which means this field contains an Object_id which reference Student model itself.   
 
 there is also a little more detail for example using populate and using child-routes(students_friends) in parent-routes(student_routes)   
 
@@ -23,5 +23,6 @@ there is also a little more detail for example using populate and using child-ro
 <li>/data/transactions.txt</li>
 <li>/middleware/transactions.txt</li>
 <li>/routes/auth_routes/*.txt</li>
-<li>error_handling.txt</li>
+<li>./error_handling.txt</li>
+<li>./log_note.txt</li>
 </ul>
