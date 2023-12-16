@@ -24,4 +24,10 @@ name of metadata key is configured in index.js where we create a new winston tra
 but all of these only logs errors when they are inside of request pipeline, to capture all errors we need to do it on higher level,
 we add an event listener to process object like this:
     process.on(process.on('uncaughtException', (error) => handleErrorFunction)
-and we can call winston inside of the function
+and we can call winston inside of the handleErrorFunction
+its better to kill the process using process.exit(1) in such situations
+
+
+however we did it manually but there is a method in winston that handle it itself
+    winston.exceptions.handle(new winston.transports.File({filename: 'unexpectedErrors.log'}))
+this method kill the process itself and we should restart the project using process managers
