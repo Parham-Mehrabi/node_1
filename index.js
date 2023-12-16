@@ -1,6 +1,5 @@
 const express = require('express');
 require('express-async-errors')
-const config = require('config')
 const winston = require('winston')
 const helmet = require('helmet')
 const morgan = require('morgan')
@@ -8,8 +7,6 @@ const authenticate = require('./middlewares/authenticate')
 
 const app = express();
 require('./startup/logging')()
-
-if (!config.get('JWT_SECRET_KEY')) throw new Error('FATAL ERROR: JWT PRIVATE KEY NOT FOUND')
 
 // connect to DataBase:
 require('./startup/db')()
@@ -22,14 +19,16 @@ app.use(express.urlencoded({ extended: true }))     // here we can post data wit
 app.use(express.static('public'))                   // specify the statics directory
 app.use(authenticate)                               // our costume middle ware for authorization
 app.use(helmet())                                   // helmet a security middleware
+if (app.get('env') === 'development') app.use(morgan('tiny'))
 
 
 
 // routes:
 require('./startup/router')(app)
 
-// logs:
-if (app.get('env') === 'development') app.use(morgan('tiny'))
+// config:
+require('./startup/config')
+
 
 
 // listen 
