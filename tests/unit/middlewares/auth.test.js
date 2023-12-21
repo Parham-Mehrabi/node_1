@@ -10,13 +10,12 @@ describe('auth middleware', () => {
             email: 'example@example.com',
             _id: new mongoose.Types.ObjectId().toHexString()
         })
-        token = jwt.sign({ email: user.email }, config.get('JWT_SECRET_KEY'))
+        const token = user.generateAuthToken()
         
         const req = {header: jest.fn().mockReturnValue(token)};
         const res = {};
         const next = jest.fn();
         auth(req, res, next);
-        
         expect(req.user.email).toBe(user.email)
         expect(req.is_authenticated).toBeTruthy()
     })
