@@ -1,0 +1,3 @@
+{
+    "JWT_SECRET_KEY": "a_secret_privet_key"
+}
