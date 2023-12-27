@@ -23,3 +23,5 @@ require('./startup/config')
 // listen 
 const port = process.env.NODE_PORT || 3000
 app.listen(port, () => winston.info(`listening on port ${port}`))
+
+module.exports = app
