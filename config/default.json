@@ -1,4 +1,6 @@
 {
     "mail":"some hard coded value",
-    "JWT_SECRET_KEY": "a_secret_privet_key"
+    "JWT_SECRET_KEY": "a_secret_privet_key",
+    "db": "mongodb://localhost/node_app"
+
 }

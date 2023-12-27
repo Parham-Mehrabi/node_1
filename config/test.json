@@ -1,3 +1,4 @@
 {
-    "JWT_SECRET_KEY": "a_secret_privet_key"
+    "JWT_SECRET_KEY": "a_secret_privet_key",
+    "db": "mongodb://localhost/test_node_app"
 }
