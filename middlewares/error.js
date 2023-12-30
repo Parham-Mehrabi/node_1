@@ -3,6 +3,7 @@ const winston = require('winston')
 module.exports = function(e, req, res, next){
     // const time = new Date()     we don't need timestamp when we use MongoDB to store the logs
     winston.error(e.message, { metadata: { myErrorStack:  e, otherKeys: "otherValues" } })
+    winston.error(e.message, e)
     // metadata is the default keyName for winston-mongodb we can change it
 
     // winston.error(e.message,{ metadata: { metaKey:  'metaValue' } })

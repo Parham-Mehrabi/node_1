@@ -26,7 +26,7 @@ auth_route.post('/register', async (req, res) => {        // here we wrapped our
     const raw_password = req.body.password
     req.body.password = await hashedPassword(raw_password)
     const new_student = await createNewUser(req.body)
-    return res.send(_.pick(new_student, ['_id', 'email']))
+    return res.status(201).send(_.pick(new_student, ['_id', 'email']))
 })
 
 
