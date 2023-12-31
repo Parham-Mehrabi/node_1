@@ -1,0 +1,28 @@
+since im familiar with testing in Django, im not going to dive deep to it here,
+clearly there is a mock function that you can fake functions with it that i used in my unit test to mock req and res objects
+
+there are a few points in integration tests:
+    1. we use a separated DB for our tests
+
+    2. we can have multiple describe inside of our describe and have some it inside of that:
+        it help us in 2 ways:
+            1.it make our tests more cleaner and modular
+            2.it also help us skip some unnecessary steps in each test, for example:
+                we create our server once,
+                and we only create a user before our login tests not before each one of our tests,
+                we also delete all users after our register tests not after any test
+    
+    3. i installed @types/jest to improve vscode intellisense
+    
+    4. i put conditions for codes related to "winston-mongodb" to comment them during tests
+    
+    5. in our package.json we can modify our test command to create a test coverage for us to check our test coverage:
+        "jest  --watchAll --verbose --coverage"
+        since i modify package.json with a new command you can do it with:
+            npm run coverage
+    6. im not going to cover all the codes for a demo project but you will get the idea after reading my tests so far
+
+    7. in the end to make tests even more cleaner and avoid duplicating codes i used this method:
+        1. first you need to create the perfect situation and call your first 'it' without modifying it
+        2. then you modify each part of the function then call it again for to make proper problems for next "it"separated
+        i used this method in ./integration/auth.test.js

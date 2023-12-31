@@ -1,11 +1,12 @@
 {
   "name": "parham",
   "version": "1.1.0",
-  "description": "",
+  "description": "a project to learn express.js with",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./index.js",
-    "test": "jest  --watchAll --verbose "
+    "test": "jest  --watchAll --verbose",
+    "coverage": "jest  --watchAll --verbose --coverage"
   },
   "keywords": [],
   "author": "",

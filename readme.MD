@@ -25,4 +25,5 @@ there is also a little more detail for example using populate and using child-ro
 <li>/routes/auth_routes/*.txt</li>
 <li>./error_handling.txt</li>
 <li>./log_note.txt</li>
+<li>/tests/tests.txt</li>
 </ul>
