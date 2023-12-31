@@ -11,6 +11,10 @@ require('./startup/logging')()
 // connect to DataBase:
 require('./startup/db')()
 
+
+// loading production middlewares
+require('./startup/prod')(app)
+
 // load middle wares:
 require('./startup/load_middlewares')(app)
 
