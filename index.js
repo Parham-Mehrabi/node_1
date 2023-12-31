@@ -1,9 +1,14 @@
 const express = require('express');
 require('express-async-errors')
 const winston = require('winston')
-
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger-output.json')
 
 const app = express();
+
+
+// swagger docs
+app.use('/api/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // logging 
 require('./startup/logging')()

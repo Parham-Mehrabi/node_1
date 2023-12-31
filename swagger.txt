@@ -1,0 +1,6 @@
+we used 2 packages for swagger
+
+first one was 'swagger-autogen' this package help us to create swagger-output.json
+automatically ( with swagger.js and npm run swagger(package.json is also modified to execute swagger.js))
+
+the second one is for swagger ui that create the page we can see in /api/

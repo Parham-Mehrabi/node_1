@@ -1,6 +1,26 @@
 html
+    title=page_title
     head 
-        title= title 
+        title= title
+        
+    body
+        h1= message
+        h3 Click the link below to redirect to swagger documentations : 
+        a(href='./api/') GO TO DOCUMENTATIONS
+        a(href='https://github.com/parham-mehrabi/node_1') GO TO SOURCE CODE
 
-    body 
-        h1= message 
+    style.
+        body{
+            display: flex; align-items:center;
+            justify-content:center; flex-direction: column; 
+            background-color: #1d8902 
+        }
+        a{
+            text-decoration:none; color:cyan; font-size: 300%;
+            background-color: black; padding: 20px; margin:20px; 
+            border-radius: 25px;
+        }
+        a:hover{
+            background-color: #1e6aa1;
+            color: black;
+        }

@@ -1,20 +1,35 @@
 <h1>
-    Learning Node(express)
+    Learning Node (Express)
 </h1>
 
-<h3>so far we updated our Student model, now it have 3 relations with 3 type of relations in MongoDB</h3>
+## Overview
+this project is a tutorial to learn express.js by following the commits
 
-<ol>
-<li>normalization(reference) -> friends</li>
-<li>demoralization(embedded/nested) -> tags</li>
-<li>hybrid -> courses</li>
-</ol>
+
+## Getting Started
+
+1. **Clone the Project:**
+   ```bash
+   git clone https://github.com/Parham-Mehrabi/node_1.git 
+   ```
+2. **Navigate to the Project Directory::**
+   ```bash
+   cd node_1 
+   ```
+3. **Roll Back to the First Commit:**
+   ```bash
+   git checkout 3616b3323d03dbc73656187febc7aea2b9f42080
+   ```
+4. **Going to next commit**  
+    use the previous method for next commit hashes you can access them with:
+   ```bash
+   git log
+   ```
+
 
 <hr>
-in this commit we created some end point to manage student_friends
-in this case Student.friends is a rel to itself which means this field contains an Object_id which reference Student model itself.   
-
-there is also a little more detail for example using populate and using child-routes(students_friends) in parent-routes(student_routes)   
+clearly this project never meant to be a perfect web application its just a sample and also a tool to learn express,
+examples are not complete but you will get the idea after reading each commit codes 
 
 <hr>
 <h2> there is a list of notes in our project that either explain something or teach something :</h2>
@@ -26,4 +41,6 @@ there is also a little more detail for example using populate and using child-ro
 <li>./error_handling.txt</li>
 <li>./log_note.txt</li>
 <li>/tests/tests.txt</li>
+<li>./swagger.txt</li>
 </ul>
+<h4>feel free to refer to these notes for deeper insights into project</h4>
